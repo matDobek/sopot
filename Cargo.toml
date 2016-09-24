@@ -1,0 +1,6 @@
+[package]
+name = "sopot"
+version = "0.1.0"
+authors = ["Mateusz Dobek <mat.dobek@gmail.com>"]
+
+[dependencies]
