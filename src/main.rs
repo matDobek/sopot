@@ -1,4 +1,4 @@
-use std::net::{TcpListener, TcpStream, SocketAddr};
+use std::net::{TcpListener, TcpStream, SocketAddr, SocketAddrV4, Ipv4Addr};
 use std::{thread, time};
 
 fn handle_client(stream: TcpStream) {
@@ -13,10 +13,15 @@ fn handle_client(stream: TcpStream) {
     }
 }
 
-fn main() {
-    println!("Starting Sopot server...");
 
-    let listener = TcpListener::bind("127.0.0.1:3000").unwrap();
+fn main() {
+    let host: Ipv4Addr = Ipv4Addr::new(127, 0, 0, 1);
+    let port: u16 = 3000;
+    let socket_addr = SocketAddrV4::new(host, port);
+
+    let listener = TcpListener::bind(socket_addr).unwrap();
+
+    println!("Started Sopot server on {}", socket_addr);
 
     for stream in listener.incoming() {
         match stream {
