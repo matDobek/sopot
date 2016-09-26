@@ -1,16 +1,24 @@
-use std::net::{TcpListener, TcpStream, SocketAddr, SocketAddrV4, Ipv4Addr};
+use std::net::{TcpListener, TcpStream, SocketAddrV4, Ipv4Addr};
 use std::{thread, time};
+use std::io::{Read, Write};
 
-fn handle_client(stream: TcpStream) {
-    //stream.local_addr()
-    match stream.peer_addr() {
-        Ok(socket_addr) => {
-            println!("Peer ip: {}, port: {}", socket_addr.ip(), socket_addr.port());
-        },
-        Err(e) => {
-            println!("Obtaining address failed!");
-        },
-    }
+fn handle_client(mut stream: TcpStream) {
+    let local_addr = stream.local_addr().unwrap();
+    let peer_addr = stream.peer_addr().unwrap();
+
+    println!("Server ip: {}, port: {}", local_addr.ip(), local_addr.port());
+    println!("Peer ip: {}, port: {}", peer_addr.ip(), peer_addr.port());
+
+    // UTF-8 only?
+    let mut buffer: Vec<u8> = vec![0; 1024*16]; //16 kB
+    stream.read(&mut buffer);
+
+    let request = String::from_utf8(buffer).unwrap();
+    println!("Received msg: {:?}", request);
+    println!("Received msg:");
+    println!("--- --- ---");
+    println!("{}", request);
+    println!("--- --- ---");
 }
 
 
@@ -35,6 +43,4 @@ fn main() {
             },
         }
     }
-
-    drop(listener);
 }
