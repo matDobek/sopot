@@ -14,11 +14,10 @@ fn handle_client(mut stream: TcpStream) {
     stream.read(&mut buffer);
 
     let request = String::from_utf8(buffer).unwrap();
-    println!("Received msg: {:?}", request);
-    println!("Received msg:");
-    println!("--- --- ---");
     println!("{}", request);
-    println!("--- --- ---");
+
+    let response  = String::from("HTTP/1.1 200 OK\n\nServed by Sopot");
+    stream.write(response.as_bytes());
 }
 
 
