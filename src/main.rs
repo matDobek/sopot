@@ -37,8 +37,8 @@ fn handle_client(mut stream: TcpStream) {
 
     let _no_of_bytes_read = stream.read(&mut buffer);
     let stringified_request = stringify_request(&buffer);
-    //let request = request::new_request(stringified_request);
-    //formatted_out!("request", request);
+    let request = request::new_request(&stringified_request);
+    formatted_out!("request", request);
 
     let response  = String::from("HTTP/1.1 200 OK\n\nServed by Sopot");
     let _no_of_bytes_written = stream.write(response.as_bytes());
