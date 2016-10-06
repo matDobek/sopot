@@ -17,9 +17,9 @@ macro_rules! formatted_out {
     };
 }
 
-fn stringify_request<'a>(buffer: &[u8]) -> &'a str {
-    let request = str::from_utf8(buffer).unwrap();
-    request.replace("\u{0}", "").as_str()
+fn stringify_request(buffer: &[u8]) -> String {
+    let str_request = str::from_utf8(buffer).unwrap_or("");
+    str_request.replace("\u{0}", "")
 }
 
 fn handle_client(mut stream: TcpStream) {
