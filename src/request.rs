@@ -34,7 +34,7 @@ pub fn new_request<'a>(stringified_request: &'a str) -> Request<'a> {
     };
 
     let (method, uri, http_version, headers) = {
-        let mut request_header_vec: Vec<&str> = request_header.split("\r\n").collect();
+        let request_header_vec: Vec<&str> = request_header.split("\r\n").collect();
         let status_line: Vec<&str> = request_header_vec[0].split(" ").collect();
         let method = status_line[0].to_string();
         let uri = status_line[1].to_string();

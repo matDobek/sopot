@@ -1,7 +1,6 @@
 use std::{str, thread};
 use std::net::{TcpListener, TcpStream, SocketAddrV4, Ipv4Addr};
-use std::io::{Read, Write, BufReader, BufRead};
-use std::collections::HashMap;
+use std::io::{Read, Write, BufReader};
 
 pub use request::{Request};
 
