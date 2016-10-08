@@ -3,8 +3,10 @@ use std::net::{TcpListener, TcpStream, SocketAddrV4, Ipv4Addr};
 use std::io::{Read, Write, BufReader};
 
 pub use request::{Request};
+pub use response::{Response};
 
 mod request;
+mod response;
 
 macro_rules! formatted_out {
     ($head:expr, $body:expr) => {
@@ -30,8 +32,6 @@ fn handle_client(mut stream: TcpStream) {
     println!("Peer ip: {}, port: {}", peer_addr.ip(), peer_addr.port());
     println!("");
 
-    // TODO: what's the memory usage of buffer?
-    // TODO: use BufReader
     let mut buffer: [u8; 1024*16]  = [0; 1024*16]; //16 kB
 
     let _no_of_bytes_read = stream.read(&mut buffer);
@@ -39,8 +39,9 @@ fn handle_client(mut stream: TcpStream) {
     let request = request::new_request(&stringified_request);
     formatted_out!("request", request);
 
-    let response  = String::from("HTTP/1.1 200 OK\n\nServed by Sopot");
-    let _no_of_bytes_written = stream.write(response.as_bytes());
+
+    let mut response = Response::new();
+    let _no_of_bytes_written = stream.write(response.stringify_response().as_bytes());
 }
 
 
